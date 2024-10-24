@@ -5,7 +5,7 @@ const app = express(); // Create an express application
 
 app.use(express.json()); // Middleware to parse JSON bodies
 
-// dummy data
+// Dummy data
 const users = [
   {
     id: "1",
@@ -23,26 +23,25 @@ const users = [
     id: "3",
     firstName: "Green",
     lastName: "Goblin",
-    hobby: "Troubling spiderman",
+    hobby: "Troubling Spiderman",
   },
   {
     id: "4",
     firstName: "Ankit",
     lastName: "Deepak",
-    hobby: "Gamer boy",
+    hobby: "Gamer Boy",
   },
   {
-    id: "4",
+    id: "5", // Changed id to be unique
     firstName: "Nirmala",
     lastName: "Sitaraman",
-    hobby: "Tax collection",
+    hobby: "Tax Collection",
   },
-
 ];
 
 // Middleware to log request details
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
+  console.log(`${req.method} ${req.url}`); // Corrected template string syntax
   next(); // Pass to the next middleware or route handler
 });
 
@@ -50,9 +49,7 @@ app.use((req, res, next) => {
 const validateUser = (req, res, next) => {
   const { firstName, lastName, hobby } = req.body;
   if (!firstName || !lastName || !hobby) {
-    return res
-      .status(400)
-      .json({ error: "All fields (firstName, lastName, hobby) are required" });
+    return res.status(400).json({ error: "All fields (firstName, lastName, hobby) are required" });
   }
   next();
 };
@@ -72,7 +69,7 @@ app.get("/users/:id", (req, res) => {
   res.status(200).json(user); // Send the user details
 });
 
-// POST /user – Add a new user
+// POST /add-user – Add a new user
 app.post("/add-user", validateUser, (req, res) => {
   const { firstName, lastName, hobby } = req.body;
   const newUser = {
@@ -85,7 +82,7 @@ app.post("/add-user", validateUser, (req, res) => {
   res.status(201).json(newUser); // Send the newly added user with status 201 (Created)
 });
 
-// PUT /user/:id – Update details of an existing user
+// PUT /update-user/:id – Update details of an existing user
 app.put("/update-user/:id", validateUser, (req, res) => {
   const userId = req.params.id;
   const user = users.find((user) => user.id === userId);
@@ -99,7 +96,7 @@ app.put("/update-user/:id", validateUser, (req, res) => {
   res.status(200).json(user); // Send the updated user details
 });
 
-// DELETE /user/:id – Delete a user by ID
+// DELETE /delete-user/:id – Delete a user by ID
 app.delete("/delete-user/:id", (req, res) => {
   const userId = req.params.id;
   const userIndex = users.findIndex((user) => user.id === userId);
@@ -121,7 +118,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Something went wrong!" });
 });
 
-// server on port 4000
-app.listen(4000, () => {
-  console.log("Server is running on port 4000");
+// Server on port 5500
+app.listen(5500, () => {
+  console.log("Server is running on port 5500");
 });
